@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import datetime
 import html
+import os
 import sys
 import webbrowser
 from pathlib import Path
@@ -133,8 +134,9 @@ def main() -> None:
     OUTPUT_FILE.write_text(html_text, encoding="utf-8")
     print(f"HTML salvo em: {OUTPUT_FILE}")
 
-    webbrowser.open(OUTPUT_FILE.as_uri())
-    print("Abrindo no navegador...")
+    if not os.environ.get("CI"):
+        webbrowser.open(OUTPUT_FILE.as_uri())
+        print("Abrindo no navegador...")
 
 
 if __name__ == "__main__":
