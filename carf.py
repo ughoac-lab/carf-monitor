@@ -1,9 +1,19 @@
-"""Coleta acórdãos do CARF publicados no último dia útil e gera HTML."""
+"""Coleta acórdãos do CARF (via Solr) publicados recentemente e gera HTML.
+
+Estratégia (caminho A):
+- Consulta uma JANELA MÓVEL dos últimos QUERY_DAYS dias de publicação.
+- Mantém memória (seen.json) dos acórdãos já mostrados, para nunca repetir
+  nem perder — mesmo quando o indexador do CARF atrasa e despeja um lote
+  de acórdãos com datas de publicação de vários dias atrás.
+- A página exibe os acórdãos dos últimos DISPLAY_DAYS dias MAIS quaisquer
+  acórdãos recém-detectados (mesmo que mais antigos), marcados com "NOVO".
+"""
 
 from __future__ import annotations
 
 import datetime
 import html
+import json
 import os
 import sys
 import webbrowser
@@ -14,54 +24,81 @@ import requests
 SOLR_URL = "https://acordaos.economia.gov.br/solr/acordaos2/select"
 PDF_BASE = "https://acordaos.economia.gov.br/acordaos2/pdfs/processados"
 OUTPUT_FILE = Path(__file__).parent / "index.html"
+SEEN_FILE = Path(__file__).parent / "seen.json"
+
+QUERY_DAYS = 21          # janela de detecção (busca no Solr)
+DISPLAY_DAYS = 7         # janela exibida normalmente na página
+SEEN_MAX_AGE_DAYS = 45   # por quanto tempo um acórdão fica na memória
 
 WEEKDAY_PT = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+MONTH_PT = ["", "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+            "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
 
 
-def target_date(today: datetime.date | None = None) -> datetime.date:
-    today = today or datetime.date.today()
-    if today.weekday() == 0:  # segunda → busca sexta
-        return today - datetime.timedelta(days=3)
-    return today - datetime.timedelta(days=1)
+def _to_date(s: str | None) -> datetime.date | None:
+    try:
+        return datetime.date.fromisoformat(s[:10])
+    except (ValueError, TypeError):
+        return None
 
 
-def fetch_acordaos(date: datetime.date) -> tuple[list[dict], int]:
-    start = date.strftime("%Y-%m-%dT00:00:00Z")
-    end = date.strftime("%Y-%m-%dT23:59:59.999Z")
+def fetch_window(end: datetime.date, days: int) -> list[dict]:
+    start = end - datetime.timedelta(days=days)
     params = {
         "q": "*:*",
-        "fq": f"dt_publicacao_tdt:[{start} TO {end}]",
+        "fq": (f"dt_publicacao_tdt:[{start:%Y-%m-%d}T00:00:00Z "
+               f"TO {end:%Y-%m-%d}T23:59:59.999Z]"),
         "wt": "json",
-        "rows": 5000,
+        "rows": 10000,
         "fl": "id,numero_processo_s,numero_decisao_s,ementa_s,nome_relator_s,"
               "camara_s,turma_s,secao_s,nome_arquivo_pdf_s,dt_publicacao_tdt",
-        "sort": "secao_s asc,camara_s asc,numero_processo_s asc",
+        "sort": "dt_publicacao_tdt desc,numero_processo_s asc",
     }
-    response = requests.get(SOLR_URL, params=params, timeout=60)
-    response.raise_for_status()
-    data = response.json()
-    return data["response"]["docs"], data["response"]["numFound"]
+    r = requests.get(SOLR_URL, params=params, timeout=120)
+    r.raise_for_status()
+    return r.json()["response"]["docs"]
 
 
-def render_item(doc: dict) -> str:
+def load_seen() -> dict[str, str]:
+    if SEEN_FILE.exists():
+        try:
+            return json.loads(SEEN_FILE.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return {}
+    return {}
+
+
+def save_seen(seen: dict[str, str], today: datetime.date) -> None:
+    cutoff = today - datetime.timedelta(days=SEEN_MAX_AGE_DAYS)
+    trimmed = {i: d for i, d in seen.items()
+               if (_to_date(d) is None or _to_date(d) >= cutoff)}
+    SEEN_FILE.write_text(
+        json.dumps(trimmed, ensure_ascii=False, indent=0, sort_keys=True),
+        encoding="utf-8",
+    )
+
+
+def fmt_date_long(d: datetime.date) -> str:
+    return f"{WEEKDAY_PT[d.weekday()]}, {d.day} de {MONTH_PT[d.month]} de {d.year}"
+
+
+def render_item(doc: dict, is_new: bool) -> str:
     e = html.escape
-    processo = e(doc.get("numero_processo_s", "?"))
     decisao = e(doc.get("numero_decisao_s", "?"))
+    processo = e(doc.get("numero_processo_s", "?"))
     ementa = e(doc.get("ementa_s", "(sem ementa)"))
     relator = e(doc.get("nome_relator_s", "?"))
     contexto = " · ".join(filter(None, [
-        doc.get("secao_s", ""),
-        doc.get("camara_s", ""),
-        doc.get("turma_s", ""),
+        doc.get("secao_s", ""), doc.get("camara_s", ""), doc.get("turma_s", ""),
     ]))
     pdf_name = doc.get("nome_arquivo_pdf_s")
-    pdf_link = (
-        f' · <a href="{e(PDF_BASE + "/" + pdf_name)}" target="_blank">PDF</a>'
-        if pdf_name else ""
-    )
-    return f"""<article class="acordao">
+    pdf_link = (f' · <a href="{e(PDF_BASE + "/" + pdf_name)}" target="_blank">PDF</a>'
+                if pdf_name else "")
+    badge = '<span class="novo">NOVO</span> ' if is_new else ""
+    cls = "acordao novo-card" if is_new else "acordao"
+    return f"""<article class="{cls}">
   <header>
-    <h2>Acórdão {decisao}{pdf_link}</h2>
+    <h3>{badge}Acórdão {decisao}{pdf_link}</h3>
     <div class="meta">
       Processo {processo}<br>
       Relator: {relator}<br>
@@ -72,36 +109,60 @@ def render_item(doc: dict) -> str:
 </article>"""
 
 
-def render_html(docs: list[dict], date: datetime.date, total: int) -> str:
-    date_str = date.strftime("%d/%m/%Y")
-    weekday_pt = WEEKDAY_PT[date.weekday()]
-    now_str = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
+def render_html(display: list[tuple[dict, datetime.date]],
+                new_ids: set[str], now: datetime.datetime) -> str:
+    groups: dict[datetime.date, list[dict]] = {}
+    for doc, d in display:
+        groups.setdefault(d, []).append(doc)
 
-    if not docs:
-        body = '<p class="empty">Nenhum acórdão publicado nesta data.</p>'
+    sections = []
+    for d in sorted(groups, reverse=True):
+        items = "\n".join(render_item(doc, doc.get("id") in new_ids)
+                          for doc in groups[d])
+        sections.append(
+            f'<h2 class="data">{fmt_date_long(d)} '
+            f'<span class="qtd">({len(groups[d])})</span></h2>\n{items}'
+        )
+    body = ("\n".join(sections) if sections
+            else '<p class="empty">Nenhum acórdão recente disponível no índice.</p>')
+
+    n = len(new_ids)
+    if n:
+        aviso = (f'<p class="novidade">🔔 <b>{n}</b> acórdão(s) novo(s) nesta '
+                 f'atualização (marcados com <span class="novo">NOVO</span>).</p>')
     else:
-        plural = "s" if total != 1 else ""
-        items = "\n".join(render_item(d) for d in docs)
-        body = f'<p class="count">{total} acórdão{plural} publicado{plural}.</p>\n{items}'
+        aviso = ('<p class="novidade sem">Nenhum acórdão novo desde a '
+                 'última atualização.</p>')
 
+    now_str = now.strftime("%d/%m/%Y %H:%M")
     return f"""<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="utf-8">
-  <title>CARF — {date_str}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acórdãos CARF</title>
   <style>
     body {{ font-family: -apple-system, system-ui, Segoe UI, sans-serif;
             max-width: 900px; margin: 2em auto; padding: 0 1em;
             color: #222; line-height: 1.5; }}
-    h1 {{ border-bottom: 2px solid #333; padding-bottom: 0.3em; margin-bottom: 0.5em; }}
-    h1 small {{ display: block; font-size: 0.55em; color: #666;
+    h1 {{ border-bottom: 2px solid #333; padding-bottom: 0.3em; margin-bottom: 0.3em; }}
+    h1 small {{ display: block; font-size: 0.5em; color: #666;
                 font-weight: normal; margin-top: 0.4em; }}
-    .count {{ color: #666; font-style: italic; }}
+    .novidade {{ background: #eef6ff; border: 1px solid #b6d8ff;
+                 padding: 0.6em 1em; border-radius: 6px; margin: 1em 0; }}
+    .novidade.sem {{ background: #f5f5f5; border-color: #ddd; color: #777; }}
+    .novo {{ background: #d73a49; color: #fff; font-size: 0.7em;
+             padding: 0.1em 0.5em; border-radius: 4px; font-weight: bold;
+             vertical-align: middle; }}
+    h2.data {{ margin-top: 1.6em; font-size: 1.15em; color: #333;
+               border-bottom: 1px solid #eee; padding-bottom: 0.2em; }}
+    h2.data .qtd {{ color: #999; font-weight: normal; font-size: 0.85em; }}
     .empty {{ color: #999; font-style: italic; padding: 2em 0; text-align: center; }}
     .acordao {{ border: 1px solid #ddd; border-radius: 6px;
-                padding: 1em 1.2em; margin: 1.2em 0; background: #fafafa; }}
+                padding: 1em 1.2em; margin: 1em 0; background: #fafafa; }}
+    .acordao.novo-card {{ border-left: 4px solid #d73a49; background: #fff8f8; }}
     .acordao header {{ margin-bottom: 0.7em; }}
-    .acordao h2 {{ margin: 0 0 0.4em 0; font-size: 1.1em; }}
+    .acordao h3 {{ margin: 0 0 0.4em 0; font-size: 1.05em; }}
     .acordao .meta {{ color: #555; font-size: 0.9em; }}
     .acordao .ementa {{ white-space: pre-wrap; margin: 0.8em 0 0 0;
                         font-size: 0.95em; color: #333; }}
@@ -111,28 +172,55 @@ def render_html(docs: list[dict], date: datetime.date, total: int) -> str:
 </head>
 <body>
   <h1>Acórdãos CARF
-    <small>Publicados em {weekday_pt}, {date_str} · gerado em {now_str}</small>
+    <small>Atualizado em {now_str} · janela: últimos {DISPLAY_DAYS} dias de publicação</small>
   </h1>
+  {aviso}
   {body}
 </body>
 </html>"""
 
 
 def main() -> None:
+    today = datetime.date.today()
     if len(sys.argv) > 1:
-        date = datetime.date.fromisoformat(sys.argv[1])
-        print(f"Data informada: {date.strftime('%d/%m/%Y')}")
+        today = datetime.date.fromisoformat(sys.argv[1])
+    print(f"Data de referência: {today.isoformat()}")
+
+    print(f"Consultando Solr (últimos {QUERY_DAYS} dias de publicação)...")
+    docs = fetch_window(today, QUERY_DAYS)
+    print(f"Acórdãos na janela de detecção: {len(docs)}")
+
+    first_run = not SEEN_FILE.exists()
+    seen = load_seen()
+    if first_run:
+        new_ids: set[str] = set()
+        print("Primeira execução: estabelecendo memória (sem marcar NOVO).")
     else:
-        date = target_date()
-        print(f"Data calculada (último dia útil): {date.strftime('%d/%m/%Y')}")
+        new_ids = {d["id"] for d in docs if d.get("id") and d["id"] not in seen}
+    print(f"Novos (não vistos antes): {len(new_ids)}")
 
-    print("Consultando Solr...")
-    docs, total = fetch_acordaos(date)
-    print(f"Encontrados: {total} acórdão(s)")
+    display_cutoff = today - datetime.timedelta(days=DISPLAY_DAYS)
+    display: list[tuple[dict, datetime.date]] = []
+    for doc in docs:
+        d = _to_date(doc.get("dt_publicacao_tdt"))
+        if d is None:
+            continue
+        if d >= display_cutoff or doc.get("id") in new_ids:
+            display.append((doc, d))
+    display.sort(key=lambda x: x[0].get("numero_processo_s", ""))
+    display.sort(key=lambda x: x[1], reverse=True)
 
-    html_text = render_html(docs, date, total)
-    OUTPUT_FILE.write_text(html_text, encoding="utf-8")
-    print(f"HTML salvo em: {OUTPUT_FILE}")
+    now = datetime.datetime.now()
+    OUTPUT_FILE.write_text(render_html(display, new_ids, now), encoding="utf-8")
+    print(f"HTML salvo: {OUTPUT_FILE} ({len(display)} acórdãos exibidos)")
+
+    for doc in docs:
+        i = doc.get("id")
+        if i:
+            d = _to_date(doc.get("dt_publicacao_tdt"))
+            seen[i] = d.isoformat() if d else today.isoformat()
+    save_seen(seen, today)
+    print(f"Memória atualizada: {len(seen)} acórdãos.")
 
     if not os.environ.get("CI"):
         webbrowser.open(OUTPUT_FILE.as_uri())

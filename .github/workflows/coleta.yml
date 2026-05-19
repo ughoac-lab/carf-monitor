@@ -2,7 +2,7 @@ name: Coleta diária CARF
 
 on:
   schedule:
-    - cron: '0 13 * * 1-5'
+    - cron: '23 13 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -30,6 +30,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add index.html seen.json
           git diff --staged --quiet || git commit -m "Atualiza acórdãos $(date +'%Y-%m-%d')"
           git push
