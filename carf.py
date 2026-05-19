@@ -59,6 +59,23 @@ def fetch_window(end: datetime.date, days: int) -> list[dict]:
     return r.json()["response"]["docs"]
 
 
+def fetch_latest_pub_date() -> datetime.date | None:
+    """Data de publicação mais recente existente no índice (ignora datas
+    futuras anômalas que existem na base do CARF)."""
+    params = {
+        "q": "*:*",
+        "fq": "dt_publicacao_tdt:[* TO NOW]",
+        "wt": "json",
+        "rows": 1,
+        "fl": "dt_publicacao_tdt",
+        "sort": "dt_publicacao_tdt desc",
+    }
+    r = requests.get(SOLR_URL, params=params, timeout=60)
+    r.raise_for_status()
+    docs = r.json()["response"]["docs"]
+    return _to_date(docs[0].get("dt_publicacao_tdt")) if docs else None
+
+
 def load_seen() -> dict[str, str]:
     if SEEN_FILE.exists():
         try:
@@ -110,7 +127,8 @@ def render_item(doc: dict, is_new: bool) -> str:
 
 
 def render_html(display: list[tuple[dict, datetime.date]],
-                new_ids: set[str], now: datetime.datetime) -> str:
+                new_ids: set[str], now: datetime.datetime,
+                latest: datetime.date | None) -> str:
     groups: dict[datetime.date, list[dict]] = {}
     for doc, d in display:
         groups.setdefault(d, []).append(doc)
@@ -134,7 +152,11 @@ def render_html(display: list[tuple[dict, datetime.date]],
         aviso = ('<p class="novidade sem">Nenhum acórdão novo desde a '
                  'última atualização.</p>')
 
-    now_str = now.strftime("%d/%m/%Y %H:%M")
+    now_str = now.strftime("%d/%m/%Y às %H:%M")
+    if latest:
+        latest_str = f"{latest:%d/%m/%Y} ({WEEKDAY_PT[latest.weekday()]})"
+    else:
+        latest_str = "indisponível"
     return f"""<!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -168,12 +190,18 @@ def render_html(display: list[tuple[dict, datetime.date]],
                         font-size: 0.95em; color: #333; }}
     a {{ color: #0366d6; text-decoration: none; }}
     a:hover {{ text-decoration: underline; }}
+    .status {{ background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px;
+               padding: 0.7em 1em; margin: 0.8em 0; font-size: 0.92em; color: #444; }}
+    .status div {{ margin: 0.15em 0; }}
   </style>
 </head>
 <body>
-  <h1>Acórdãos CARF
-    <small>Atualizado em {now_str} · janela: últimos {DISPLAY_DAYS} dias de publicação</small>
-  </h1>
+  <h1>Acórdãos CARF</h1>
+  <div class="status">
+    <div>🤖 Robô executou em <b>{now_str}</b> (se for hoje, o robô está funcionando).</div>
+    <div>📅 Publicação mais recente disponível no índice do CARF: <b>{latest_str}</b>.</div>
+    <div>🪟 A página mostra os últimos {DISPLAY_DAYS} dias de publicação.</div>
+  </div>
   {aviso}
   {body}
 </body>
@@ -210,8 +238,11 @@ def main() -> None:
     display.sort(key=lambda x: x[0].get("numero_processo_s", ""))
     display.sort(key=lambda x: x[1], reverse=True)
 
+    latest = fetch_latest_pub_date()
+    print(f"Publicação mais recente no índice do CARF: {latest}")
+
     now = datetime.datetime.now()
-    OUTPUT_FILE.write_text(render_html(display, new_ids, now), encoding="utf-8")
+    OUTPUT_FILE.write_text(render_html(display, new_ids, now, latest), encoding="utf-8")
     print(f"HTML salvo: {OUTPUT_FILE} ({len(display)} acórdãos exibidos)")
 
     for doc in docs:
