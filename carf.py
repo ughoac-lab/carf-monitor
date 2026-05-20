@@ -15,8 +15,10 @@ import datetime
 import html
 import json
 import os
+import re
 import sys
 import webbrowser
+from collections import Counter
 from pathlib import Path
 
 import requests
@@ -99,7 +101,105 @@ def fmt_date_long(d: datetime.date) -> str:
     return f"{WEEKDAY_PT[d.weekday()]}, {d.day} de {MONTH_PT[d.month]} de {d.year}"
 
 
-def render_item(doc: dict, is_new: bool) -> str:
+ASSUNTO_RE = re.compile(r"Assunto:\s*([^\n\r]+)")
+
+
+def extract_assuntos(ementa: str | None) -> list[str]:
+    achados = ASSUNTO_RE.findall(ementa or "")
+    uniq = list(dict.fromkeys(a.strip() for a in achados if a.strip()))
+    return uniq or ["(sem assunto)"]
+
+
+CSS = """
+    body { font-family: -apple-system, system-ui, Segoe UI, sans-serif;
+           max-width: 1150px; margin: 2em auto; padding: 0 1em;
+           color: #222; line-height: 1.5; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; margin-bottom: 0.3em; }
+    .status { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px;
+              padding: 0.7em 1em; margin: 0.8em 0; font-size: 0.92em; color: #444; }
+    .status div { margin: 0.15em 0; }
+    .novidade { background: #eef6ff; border: 1px solid #b6d8ff;
+                padding: 0.6em 1em; border-radius: 6px; margin: 0 0 1em 0; }
+    .novidade.sem { background: #f5f5f5; border-color: #ddd; color: #777; }
+    .novo { background: #d73a49; color: #fff; font-size: 0.7em;
+            padding: 0.1em 0.5em; border-radius: 4px; font-weight: bold;
+            vertical-align: middle; }
+    .layout { display: flex; gap: 1.5em; align-items: flex-start; }
+    .filtros { flex: 0 0 230px; position: sticky; top: 1em; font-size: 0.9em;
+               max-height: calc(100vh - 2em); overflow-y: auto; }
+    .conteudo { flex: 1; min-width: 0; }
+    .filtros .grupo { margin-bottom: 1.3em; }
+    .filtros h4 { margin: 0 0 0.4em; font-size: 0.95em; color: #333;
+                  border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+    .filtros ul { list-style: none; padding: 0; margin: 0; }
+    .filtros li { padding: 0.3em 0.5em; border-radius: 4px; cursor: pointer;
+                  color: #0366d6; }
+    .filtros li:hover { background: #eef; }
+    .filtros li.ativo { background: #0366d6; color: #fff; }
+    .filtros li span { color: #999; font-size: 0.85em; }
+    .filtros li.ativo span { color: #ccdcf5; }
+    .filtros li.todos { color: #666; font-style: italic; }
+    h2.data { margin-top: 1.4em; font-size: 1.15em; color: #333;
+              border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+    h2.data .qtd { color: #999; font-weight: normal; font-size: 0.85em; }
+    .empty { color: #999; font-style: italic; padding: 2em 0; text-align: center; }
+    .acordao { border: 1px solid #ddd; border-radius: 6px;
+               padding: 1em 1.2em; margin: 1em 0; background: #fafafa; }
+    .acordao.novo-card { border-left: 4px solid #d73a49; background: #fff8f8; }
+    .acordao header { margin-bottom: 0.7em; }
+    .acordao h3 { margin: 0 0 0.4em 0; font-size: 1.05em; }
+    .acordao .meta { color: #555; font-size: 0.9em; }
+    .acordao .ementa { white-space: pre-wrap; margin: 0.8em 0 0 0;
+                       font-size: 0.95em; color: #333; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    @media (max-width: 760px) {
+      .layout { flex-direction: column; }
+      .filtros { position: static; flex-basis: auto; }
+    }
+"""
+
+JS = """
+function aplicar(){
+  var fa = document.querySelector('.f-assunto.ativo');
+  var fs = document.querySelector('.f-secao.ativo');
+  fa = fa ? fa.getAttribute('data-val') : null;
+  fs = fs ? fs.getAttribute('data-val') : null;
+  var cards = document.querySelectorAll('.acordao');
+  for (var i=0;i<cards.length;i++){
+    var c = cards[i];
+    var ass = (c.getAttribute('data-assuntos')||'').split('|');
+    var sec = c.getAttribute('data-secao')||'';
+    var okA = !fa || ass.indexOf(fa) >= 0;
+    var okS = !fs || sec === fs;
+    c.style.display = (okA && okS) ? '' : 'none';
+  }
+  var hs = document.querySelectorAll('h2.data');
+  for (var j=0;j<hs.length;j++){
+    var h = hs[j], el = h.nextElementSibling, vis = false;
+    while (el && el.tagName !== 'H2'){
+      if (el.className && (''+el.className).indexOf('acordao') >= 0 && el.style.display !== 'none') vis = true;
+      el = el.nextElementSibling;
+    }
+    h.style.display = vis ? '' : 'none';
+  }
+}
+function toggle(el, cls){
+  var ativo = el.classList.contains('ativo');
+  var todos = document.querySelectorAll('.'+cls);
+  for (var i=0;i<todos.length;i++) todos[i].classList.remove('ativo');
+  if (!ativo) el.classList.add('ativo');
+  aplicar();
+}
+function limpar(cls){
+  var todos = document.querySelectorAll('.'+cls);
+  for (var i=0;i<todos.length;i++) todos[i].classList.remove('ativo');
+  aplicar();
+}
+"""
+
+
+def render_item(doc: dict, is_new: bool, assuntos: list[str]) -> str:
     e = html.escape
     decisao = e(doc.get("numero_decisao_s", "?"))
     processo = e(doc.get("numero_processo_s", "?"))
@@ -113,7 +213,9 @@ def render_item(doc: dict, is_new: bool) -> str:
                 if pdf_name else "")
     badge = '<span class="novo">NOVO</span> ' if is_new else ""
     cls = "acordao novo-card" if is_new else "acordao"
-    return f"""<article class="{cls}">
+    data_ass = e("|".join(assuntos))
+    data_sec = e(doc.get("secao_s", "") or "")
+    return f"""<article class="{cls}" data-assuntos="{data_ass}" data-secao="{data_sec}">
   <header>
     <h3>{badge}Acórdão {decisao}{pdf_link}</h3>
     <div class="meta">
@@ -126,17 +228,41 @@ def render_item(doc: dict, is_new: bool) -> str:
 </article>"""
 
 
+def _sidebar_group(titulo: str, counter: Counter, cls: str) -> str:
+    e = html.escape
+    itens = "".join(
+        f'<li class="{cls}" data-val="{e(k)}" onclick="toggle(this,\'{cls}\')">'
+        f'{e(k)} <span>({v})</span></li>'
+        for k, v in counter.most_common()
+    )
+    return (f'<div class="grupo"><h4>{titulo}</h4><ul>'
+            f'<li class="todos" onclick="limpar(\'{cls}\')">Todos</li>'
+            f'{itens}</ul></div>')
+
+
 def render_html(display: list[tuple[dict, datetime.date]],
                 new_ids: set[str], now: datetime.datetime,
                 latest: datetime.date | None) -> str:
+    ass_counter: Counter = Counter()
+    sec_counter: Counter = Counter()
+    doc_ass: dict = {}
+    for doc, _ in display:
+        a = extract_assuntos(doc.get("ementa_s", ""))
+        doc_ass[doc.get("id")] = a
+        for x in a:
+            ass_counter[x] += 1
+        sec_counter[doc.get("secao_s") or "(sem seção)"] += 1
+
     groups: dict[datetime.date, list[dict]] = {}
     for doc, d in display:
         groups.setdefault(d, []).append(doc)
 
     sections = []
     for d in sorted(groups, reverse=True):
-        items = "\n".join(render_item(doc, doc.get("id") in new_ids)
-                          for doc in groups[d])
+        items = "\n".join(
+            render_item(doc, doc.get("id") in new_ids, doc_ass.get(doc.get("id"), []))
+            for doc in groups[d]
+        )
         sections.append(
             f'<h2 class="data">{fmt_date_long(d)} '
             f'<span class="qtd">({len(groups[d])})</span></h2>\n{items}'
@@ -152,6 +278,11 @@ def render_html(display: list[tuple[dict, datetime.date]],
         aviso = ('<p class="novidade sem">Nenhum acórdão novo desde a '
                  'última atualização.</p>')
 
+    sidebar = ""
+    if display:
+        sidebar = (_sidebar_group("Seção julgadora", sec_counter, "f-secao")
+                   + _sidebar_group("Assunto", ass_counter, "f-assunto"))
+
     now_str = now.strftime("%d/%m/%Y às %H:%M")
     if latest:
         latest_str = f"{latest:%d/%m/%Y} ({WEEKDAY_PT[latest.weekday()]})"
@@ -163,47 +294,23 @@ def render_html(display: list[tuple[dict, datetime.date]],
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Acórdãos CARF</title>
-  <style>
-    body {{ font-family: -apple-system, system-ui, Segoe UI, sans-serif;
-            max-width: 900px; margin: 2em auto; padding: 0 1em;
-            color: #222; line-height: 1.5; }}
-    h1 {{ border-bottom: 2px solid #333; padding-bottom: 0.3em; margin-bottom: 0.3em; }}
-    h1 small {{ display: block; font-size: 0.5em; color: #666;
-                font-weight: normal; margin-top: 0.4em; }}
-    .novidade {{ background: #eef6ff; border: 1px solid #b6d8ff;
-                 padding: 0.6em 1em; border-radius: 6px; margin: 1em 0; }}
-    .novidade.sem {{ background: #f5f5f5; border-color: #ddd; color: #777; }}
-    .novo {{ background: #d73a49; color: #fff; font-size: 0.7em;
-             padding: 0.1em 0.5em; border-radius: 4px; font-weight: bold;
-             vertical-align: middle; }}
-    h2.data {{ margin-top: 1.6em; font-size: 1.15em; color: #333;
-               border-bottom: 1px solid #eee; padding-bottom: 0.2em; }}
-    h2.data .qtd {{ color: #999; font-weight: normal; font-size: 0.85em; }}
-    .empty {{ color: #999; font-style: italic; padding: 2em 0; text-align: center; }}
-    .acordao {{ border: 1px solid #ddd; border-radius: 6px;
-                padding: 1em 1.2em; margin: 1em 0; background: #fafafa; }}
-    .acordao.novo-card {{ border-left: 4px solid #d73a49; background: #fff8f8; }}
-    .acordao header {{ margin-bottom: 0.7em; }}
-    .acordao h3 {{ margin: 0 0 0.4em 0; font-size: 1.05em; }}
-    .acordao .meta {{ color: #555; font-size: 0.9em; }}
-    .acordao .ementa {{ white-space: pre-wrap; margin: 0.8em 0 0 0;
-                        font-size: 0.95em; color: #333; }}
-    a {{ color: #0366d6; text-decoration: none; }}
-    a:hover {{ text-decoration: underline; }}
-    .status {{ background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px;
-               padding: 0.7em 1em; margin: 0.8em 0; font-size: 0.92em; color: #444; }}
-    .status div {{ margin: 0.15em 0; }}
-  </style>
+  <style>{CSS}</style>
 </head>
 <body>
   <h1>Acórdãos CARF</h1>
   <div class="status">
     <div>🤖 Robô executou em <b>{now_str}</b> (se for hoje, o robô está funcionando).</div>
     <div>📅 Publicação mais recente disponível no índice do CARF: <b>{latest_str}</b>.</div>
-    <div>🪟 A página mostra os últimos {DISPLAY_DAYS} dias de publicação.</div>
+    <div>🪟 A página mostra os últimos {DISPLAY_DAYS} dias de publicação. Use os filtros à esquerda.</div>
   </div>
-  {aviso}
-  {body}
+  <div class="layout">
+    <aside class="filtros">{sidebar}</aside>
+    <main class="conteudo">
+      {aviso}
+      {body}
+    </main>
+  </div>
+  <script>{JS}</script>
 </body>
 </html>"""
 

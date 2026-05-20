@@ -6,46 +6,66 @@
   <title>Acórdãos CARF</title>
   <style>
     body { font-family: -apple-system, system-ui, Segoe UI, sans-serif;
-            max-width: 900px; margin: 2em auto; padding: 0 1em;
-            color: #222; line-height: 1.5; }
+           max-width: 1150px; margin: 2em auto; padding: 0 1em;
+           color: #222; line-height: 1.5; }
     h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; margin-bottom: 0.3em; }
-    h1 small { display: block; font-size: 0.5em; color: #666;
-                font-weight: normal; margin-top: 0.4em; }
+    .status { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px;
+              padding: 0.7em 1em; margin: 0.8em 0; font-size: 0.92em; color: #444; }
+    .status div { margin: 0.15em 0; }
     .novidade { background: #eef6ff; border: 1px solid #b6d8ff;
-                 padding: 0.6em 1em; border-radius: 6px; margin: 1em 0; }
+                padding: 0.6em 1em; border-radius: 6px; margin: 0 0 1em 0; }
     .novidade.sem { background: #f5f5f5; border-color: #ddd; color: #777; }
     .novo { background: #d73a49; color: #fff; font-size: 0.7em;
-             padding: 0.1em 0.5em; border-radius: 4px; font-weight: bold;
-             vertical-align: middle; }
-    h2.data { margin-top: 1.6em; font-size: 1.15em; color: #333;
-               border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+            padding: 0.1em 0.5em; border-radius: 4px; font-weight: bold;
+            vertical-align: middle; }
+    .layout { display: flex; gap: 1.5em; align-items: flex-start; }
+    .filtros { flex: 0 0 230px; position: sticky; top: 1em; font-size: 0.9em;
+               max-height: calc(100vh - 2em); overflow-y: auto; }
+    .conteudo { flex: 1; min-width: 0; }
+    .filtros .grupo { margin-bottom: 1.3em; }
+    .filtros h4 { margin: 0 0 0.4em; font-size: 0.95em; color: #333;
+                  border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
+    .filtros ul { list-style: none; padding: 0; margin: 0; }
+    .filtros li { padding: 0.3em 0.5em; border-radius: 4px; cursor: pointer;
+                  color: #0366d6; }
+    .filtros li:hover { background: #eef; }
+    .filtros li.ativo { background: #0366d6; color: #fff; }
+    .filtros li span { color: #999; font-size: 0.85em; }
+    .filtros li.ativo span { color: #ccdcf5; }
+    .filtros li.todos { color: #666; font-style: italic; }
+    h2.data { margin-top: 1.4em; font-size: 1.15em; color: #333;
+              border-bottom: 1px solid #eee; padding-bottom: 0.2em; }
     h2.data .qtd { color: #999; font-weight: normal; font-size: 0.85em; }
     .empty { color: #999; font-style: italic; padding: 2em 0; text-align: center; }
     .acordao { border: 1px solid #ddd; border-radius: 6px;
-                padding: 1em 1.2em; margin: 1em 0; background: #fafafa; }
+               padding: 1em 1.2em; margin: 1em 0; background: #fafafa; }
     .acordao.novo-card { border-left: 4px solid #d73a49; background: #fff8f8; }
     .acordao header { margin-bottom: 0.7em; }
     .acordao h3 { margin: 0 0 0.4em 0; font-size: 1.05em; }
     .acordao .meta { color: #555; font-size: 0.9em; }
     .acordao .ementa { white-space: pre-wrap; margin: 0.8em 0 0 0;
-                        font-size: 0.95em; color: #333; }
+                       font-size: 0.95em; color: #333; }
     a { color: #0366d6; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .status { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px;
-               padding: 0.7em 1em; margin: 0.8em 0; font-size: 0.92em; color: #444; }
-    .status div { margin: 0.15em 0; }
-  </style>
+    @media (max-width: 760px) {
+      .layout { flex-direction: column; }
+      .filtros { position: static; flex-basis: auto; }
+    }
+</style>
 </head>
 <body>
   <h1>Acórdãos CARF</h1>
   <div class="status">
-    <div>🤖 Robô executou em <b>19/05/2026 às 20:19</b> (se for hoje, o robô está funcionando).</div>
+    <div>🤖 Robô executou em <b>19/05/2026 às 21:35</b> (se for hoje, o robô está funcionando).</div>
     <div>📅 Publicação mais recente disponível no índice do CARF: <b>15/05/2026 (Sexta)</b>.</div>
-    <div>🪟 A página mostra os últimos 7 dias de publicação.</div>
+    <div>🪟 A página mostra os últimos 7 dias de publicação. Use os filtros à esquerda.</div>
   </div>
-  <p class="novidade sem">Nenhum acórdão novo desde a última atualização.</p>
-  <h2 class="data">Sexta, 15 de maio de 2026 <span class="qtd">(49)</span></h2>
-<article class="acordao">
+  <div class="layout">
+    <aside class="filtros"><div class="grupo"><h4>Seção julgadora</h4><ul><li class="todos" onclick="limpar('f-secao')">Todos</li><li class="f-secao" data-val="Terceira Seção De Julgamento" onclick="toggle(this,'f-secao')">Terceira Seção De Julgamento <span>(189)</span></li><li class="f-secao" data-val="Segunda Seção de Julgamento" onclick="toggle(this,'f-secao')">Segunda Seção de Julgamento <span>(66)</span></li><li class="f-secao" data-val="Primeira Seção de Julgamento" onclick="toggle(this,'f-secao')">Primeira Seção de Julgamento <span>(48)</span></li><li class="f-secao" data-val="Câmara Superior de Recursos Fiscais" onclick="toggle(this,'f-secao')">Câmara Superior de Recursos Fiscais <span>(2)</span></li></ul></div><div class="grupo"><h4>Assunto</h4><ul><li class="todos" onclick="limpar('f-assunto')">Todos</li><li class="f-assunto" data-val="Processo Administrativo Fiscal" onclick="toggle(this,'f-assunto')">Processo Administrativo Fiscal <span>(52)</span></li><li class="f-assunto" data-val="Contribuição para o Financiamento da Seguridade Social - Cofins" onclick="toggle(this,'f-assunto')">Contribuição para o Financiamento da Seguridade Social - Cofins <span>(46)</span></li><li class="f-assunto" data-val="Normas Gerais de Direito Tributário" onclick="toggle(this,'f-assunto')">Normas Gerais de Direito Tributário <span>(44)</span></li><li class="f-assunto" data-val="Contribuição para o PIS/Pasep" onclick="toggle(this,'f-assunto')">Contribuição para o PIS/Pasep <span>(36)</span></li><li class="f-assunto" data-val="(sem assunto)" onclick="toggle(this,'f-assunto')">(sem assunto) <span>(33)</span></li><li class="f-assunto" data-val="Contribuições Sociais Previdenciárias" onclick="toggle(this,'f-assunto')">Contribuições Sociais Previdenciárias <span>(31)</span></li><li class="f-assunto" data-val="Imposto sobre a Renda de Pessoa Física - IRPF" onclick="toggle(this,'f-assunto')">Imposto sobre a Renda de Pessoa Física - IRPF <span>(29)</span></li><li class="f-assunto" data-val="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" onclick="toggle(this,'f-assunto')">Imposto sobre a Renda de Pessoa Jurídica - IRPJ <span>(26)</span></li><li class="f-assunto" data-val="Imposto sobre Produtos Industrializados - IPI" onclick="toggle(this,'f-assunto')">Imposto sobre Produtos Industrializados - IPI <span>(9)</span></li><li class="f-assunto" data-val="Contribuição Social sobre o Lucro Líquido - CSLL" onclick="toggle(this,'f-assunto')">Contribuição Social sobre o Lucro Líquido - CSLL <span>(8)</span></li><li class="f-assunto" data-val="Obrigações Acessórias" onclick="toggle(this,'f-assunto')">Obrigações Acessórias <span>(6)</span></li><li class="f-assunto" data-val="Normas de Administração Tributária" onclick="toggle(this,'f-assunto')">Normas de Administração Tributária <span>(5)</span></li><li class="f-assunto" data-val="Imposto sobre Operações de Crédito, Câmbio e Seguros ou relativas a Títulos ou Valores Mobiliários - IOF" onclick="toggle(this,'f-assunto')">Imposto sobre Operações de Crédito, Câmbio e Seguros ou relativas a Títulos ou Valores Mobiliários - IOF <span>(3)</span></li><li class="f-assunto" data-val="Classificação de Mercadorias" onclick="toggle(this,'f-assunto')">Classificação de Mercadorias <span>(3)</span></li><li class="f-assunto" data-val="Regimes Aduaneiros" onclick="toggle(this,'f-assunto')">Regimes Aduaneiros <span>(2)</span></li><li class="f-assunto" data-val="Outros Tributos ou Contribuições" onclick="toggle(this,'f-assunto')">Outros Tributos ou Contribuições <span>(2)</span></li></ul></div></aside>
+    <main class="conteudo">
+      <p class="novidade sem">Nenhum acórdão novo desde a última atualização.</p>
+      <h2 class="data">Sexta, 15 de maio de 2026 <span class="qtd">(49)</span></h2>
+<article class="acordao" data-assuntos="Obrigações Acessórias" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-015.154 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10120725235201247_7373427.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -62,7 +82,7 @@ Por se tratar de exigência reflexa realizada com base nos mesmos fatos, a decis
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-001.402 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10120725235201247_7373428.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -73,7 +93,7 @@ Por se tratar de exigência reflexa realizada com base nos mesmos fatos, a decis
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-007.890 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166728431201247_7373437.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -91,7 +111,7 @@ MANUTENÇÃO DA PENALIDADE APLICADA.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Obrigações Acessórias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.351 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10380726506201059_7373449.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -107,7 +127,7 @@ No âmbito das contribuições previdenciárias, é incabível lançamento por d
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-015.151 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10480004273200382_7373425.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -126,7 +146,7 @@ Importa renúncia às instâncias administrativas a propositura pelo sujeito pas
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.693 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10580722249202000_7373404.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -146,7 +166,7 @@ Diante da constatação da ocorrência dos fatos geradores, exsurge à fiscaliza
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.336 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10580725580200968_7373433.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -167,7 +187,7 @@ O resultado final do recálculo do imposto, ainda que importe em saldo credor em
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-004.040 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10650900551201305_7373412.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -197,7 +217,7 @@ O aproveitamento de créditos extemporâneos da contribuição para o PIS/Pasep 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-004.039 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10650900552201341_7373413.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -227,7 +247,7 @@ O aproveitamento de créditos extemporâneos da contribuição para o PIS/Pasep 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3004-000.125 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10660902537201319_7373411.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -243,7 +263,7 @@ O crédito presumido de IPI é calculado com base no custo mensal de aquisição
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3004-000.123 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10660902538201363_7373407.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -259,7 +279,7 @@ O crédito presumido de IPI é calculado com base no custo mensal de aquisição
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.969 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10711721775201382_7373414.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -276,7 +296,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Regimes Aduaneiros" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-004.044 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10711723588201767_7373409.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -294,7 +314,7 @@ Na hipótese de indeferimento de pleito de renovação do REPETRO, os efeitos do
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Regimes Aduaneiros" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-004.045 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10711723594201714_7373410.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -312,7 +332,7 @@ Na hipótese de indeferimento de pleito de renovação do REPETRO, os efeitos do
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.334 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10825720218201367_7373432.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -328,7 +348,7 @@ RECURSO VOLUNTÁRIO. PRAZO. INTEMPESTIVO.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.305 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10830726960201731_7373442.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -350,7 +370,7 @@ Constatada omissão de rendimentos, é devida a multa de ofício prevista no art
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.307 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10830727041201784_7373443.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -369,7 +389,7 @@ Caracterizada a omissão de rendimentos, é devida a aplicação da multa previs
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.498 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10850721028201350_7373439.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -385,7 +405,7 @@ Nos pedidos de créditos, quer sejam eles por ressarcimento, quer por compensaç
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.500 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10850900818201057_7373440.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -401,7 +421,7 @@ O momento para a Recorrente apresentar suas motivações e provas é a apresenta
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.258 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880723827201311_7373424.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -412,7 +432,7 @@ O momento para a Recorrente apresentar suas motivações e provas é a apresenta
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.327 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880738068201898_7373438.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -432,7 +452,7 @@ BASE DE CÁLCULO. IRRF. RECOMPOSIÇÃO DO RENDIMENTO BRUTO.O imposto de renda re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Obrigações Acessórias" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3004-000.124 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10882901655201303_7373408.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -448,7 +468,7 @@ Para fazer jus à compensação pleiteada, o Contribuinte deve comprovar a exist
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Obrigações Acessórias" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3004-000.121 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10935720312201298_7373405.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -464,7 +484,7 @@ Não verificada a circunstância de inexatidão material, que pode ser corrigida
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.346 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11080722553201071_7373448.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -482,7 +502,7 @@ A Administração Pública não responde solidariamente por créditos previdenci
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3004-000.122 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11080916543201185_7373406.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -498,7 +518,7 @@ Para fazer jus à compensação pleiteada, o Contribuinte deve comprovar a exist
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.970 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11128732138201384_7373415.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -515,7 +535,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.971 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12266720823201346_7373416.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -532,7 +552,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.972 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12266720824201391_7373417.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -549,7 +569,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.973 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12266721019201384_7373418.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -566,7 +586,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.974 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12266721062201340_7373419.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -583,7 +603,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.975 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12266721085201354_7373420.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -600,7 +620,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.976 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12466723373201397_7373421.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -617,7 +637,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.335 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13074731386202469_7373435.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -638,7 +658,7 @@ Mantém-se o lançamento quando demonstrada, com base nos elementos dos autos, a
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1202-002.395 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13116720694201291_7373430.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -657,7 +677,7 @@ A responsabilidade por prestação de informação falsa em DIRF é da fonte pag
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.712 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13161720535201322_7373426.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -679,7 +699,7 @@ A compensação de contribuições previdenciárias depende da certeza e liquide
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.363 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13362721302201895_7373436.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -701,7 +721,7 @@ A apresentação de documentação idônea, capaz de demonstrar a origem dos rec
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.338 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13603720796201487_7373445.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -721,7 +741,7 @@ RESPONSABILIDADE SOLIDÁRIA. GRUPO ECONÔMICO. NECESSIDADE DE COMPROVAÇÃO.A ca
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.337 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13603720873201407_7373444.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -740,7 +760,7 @@ A apresentação de guias de recolhimento (GPS) sob código destinado exclusivam
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-000.553 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13603900063201696_7373446.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -751,7 +771,7 @@ A apresentação de guias de recolhimento (GPS) sob código destinado exclusivam
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-000.554 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13603900064201631_7373447.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -762,7 +782,7 @@ A apresentação de guias de recolhimento (GPS) sob código destinado exclusivam
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.715 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13609721650201741_7373429.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -790,7 +810,7 @@ A competência para apreciar pedido de compensação de tributos é do  titular 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.367 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13830721184201185_7373434.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -813,7 +833,7 @@ A solicitação de extratos bancários diretamente ao contribuinte, no curso do 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-007.913 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13888722099201179_7373431.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -831,7 +851,7 @@ Não entrarão no cômputo do rendimento bruto a indenização e o aviso prévio
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.977 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15771720194201332_7373423.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -847,7 +867,7 @@ A contestação de infrações, impetradas pela administração tributária, dep
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.978 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15771725179201381_7373422.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -864,7 +884,7 @@ A multa prescrita no artigo 107, IV, “e”, do Decreto-Lei nº 37/1966 tem nat
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins|Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.499 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16007000328201086_7373441.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -885,7 +905,7 @@ A falta de apreciação de provas e alegações presentes na Manifestação de I
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Câmara Superior de Recursos Fiscais">
   <header>
     <h3>Acórdão 9202-011.886 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682720636201817_7373451.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -906,7 +926,7 @@ Tendo o contribuinte recolhido voluntariamente a contribuição previdenciária 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Câmara Superior de Recursos Fiscais">
   <header>
     <h3>Acórdão 9202-011.885 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682721028201587_7373452.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -924,7 +944,7 @@ A inexistência de obscuridade, contradição ou omissão impõe a rejeição do
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.344 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/23034042953200657_7373450.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -943,7 +963,7 @@ A RAI - Relação de Alunos Indenizados é elemento necessário à efetiva parti
 </div>
 </article>
 <h2 class="data">Quinta, 14 de maio de 2026 <span class="qtd">(58)</span></h2>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas de Administração Tributária" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.123 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10111721516202121_7372653.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -961,7 +981,7 @@ A ocultação de terceiros mediante cessão de nome pressupõe dolo e conluio, a
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.820 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166721909201046_7372636.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -984,7 +1004,7 @@ Mantidas a multa de ofício e os juros de mora, por serem consectários legais d
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-015.094 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166725187201341_7372622.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1006,7 +1026,7 @@ Uma vez que o lançamento ocorreu a partir da divergência entre Dacon x DCTF e 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.996 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10183721679201350_7372669.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1027,7 +1047,7 @@ A partir de 1º de abril de 1995, os juros moratórios sobre débitos tributári
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.600 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10280723468202082_7372632.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1055,7 +1075,7 @@ A alteração do critério jurídico do lançamento pela autoridade julgadora de
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Operações de Crédito, Câmbio e Seguros ou relativas a Títulos ou Valores Mobiliários - IOF" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.586 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10283721311202335_7372633.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1076,7 +1096,7 @@ Nas operações em que não ficar definido o valor do principal a ser utilizado,
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.606 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10315720090202011_7372671.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1092,7 +1112,7 @@ Considerar-se-á não impugnada a matéria que não tenha sido expressamente con
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.451 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10340721745202141_7372637.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1113,7 +1133,7 @@ Crédito Tributário Mantido em Parte.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.835 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10380900017201318_7372624.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1129,7 +1149,7 @@ Somente geram crédito do IPI os insumos consumidos imediata e integralmente no 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.234 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10516000010201150_7372677.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1152,7 +1172,7 @@ A revogação do dispositivo normativo que suporta a aplicação da multa tal co
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.625 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10530725719201698_7372667.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1168,7 +1188,7 @@ Somente se faz autorizada a saída de produtos do estabelecimento industrial com
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.166 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10825901894201259_7372656.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1188,7 +1208,7 @@ A impossibilidade de retificação de PER/DCOMP após a prolação de decisão a
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.167 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10825901895201201_7372657.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1208,7 +1228,7 @@ Incumbe ao sujeito passivo o ônus de demonstrar, de forma inequívoca e documen
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.566 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10840723952201551_7372643.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1231,7 +1251,7 @@ Crédito Tributário Exonerado.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.609 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10845722685201393_7372663.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1247,7 +1267,7 @@ No âmbito da análise de créditos da Contribuição para o PIS e da Cofins, o 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.607 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10845725063201406_7372666.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1263,7 +1283,7 @@ No âmbito da análise de créditos da Contribuição para o PIS e da Cofins, o 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.608 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10845725064201442_7372665.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1279,7 +1299,7 @@ No âmbito da análise de créditos da Contribuição para o PIS e da Cofins, o 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ|Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.995 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10860720234201323_7372675.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1302,7 +1322,7 @@ O lançamento de CSLL decorrente da mesma base fática segue a sorte do lançame
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1101-000.218 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880915873201761_7372661.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1313,7 +1333,7 @@ O lançamento de CSLL decorrente da mesma base fática segue a sorte do lançame
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Outros Tributos ou Contribuições" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.162 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10909720510201198_7372654.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1329,7 +1349,7 @@ A responsabilidade pelo extravio ou avaria de mercadoria estrangeira ingressada 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.612 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10920720007202156_7372625.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1351,7 +1371,7 @@ As alegações concernentes à aplicação da multa isolada de 150% (art. 74, §
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.613 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10920727086201910_7372627.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1369,7 +1389,7 @@ RECURSO VOLUNTÁRIO NÃO CONHECIDO.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.614 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10920727434201941_7372629.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1387,7 +1407,7 @@ RECURSO VOLUNTÁRIO NÃO CONHECIDO.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.608 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10920727436201930_7372630.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1405,7 +1425,7 @@ RECURSO VOLUNTÁRIO NÃO CONHECIDO.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.379 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10930903222201281_7372645.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1423,7 +1443,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.611 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10980723926202096_7372628.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1441,7 +1461,7 @@ RECURSO VOLUNTÁRIO NÃO CONHECIDO.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.609 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10980723929202020_7372631.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1459,7 +1479,7 @@ RECURSO VOLUNTÁRIO NÃO CONHECIDO.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.610 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10980725622202144_7372626.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1477,7 +1497,7 @@ A complexidade e a quantidade de informações inverídicas inseridas na DCOMP a
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Classificação de Mercadorias" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.136 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11020720843201337_7372658.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1494,7 +1514,7 @@ Com base na RGI/SH 1, nota 1 do capítulo 83 (texto da posição 83.02) e na RGI
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1101-002.106 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11075721857201251_7372660.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1512,7 +1532,7 @@ A não comprovação, mediante documentação hábil e idônea, da origem dos re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.823 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11080729681201126_7372638.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1532,7 +1552,7 @@ Plenamente cabível a aplicação do respectivo dispositivo regimental uma vez q
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.237 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11128726359201232_7372659.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1548,7 +1568,7 @@ Aplica-se a prescrição intercorrente prevista no art. 1º, § 1º, da Lei nº 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.633 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11634720163201991_7372664.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1567,7 +1587,7 @@ Tese: A eficácia subjetiva da coisa julgada formada a partir de ação coletiva
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.994 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12448728311201217_7372672.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1585,7 +1605,7 @@ Adesão à Programa de Parcelamento (PERT). Pedido de desistência. Não conheci
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Classificação de Mercadorias" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.675 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12749000452200710_7372670.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1605,7 +1625,7 @@ Aplica-se o princípio da retroatividade benigna às infrações com base no art
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.585 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13136720390202349_7372634.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1621,7 +1641,7 @@ Frustrada a intimação via postal, torna-se cabível a intimação ficta, por e
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Operações de Crédito, Câmbio e Seguros ou relativas a Títulos ou Valores Mobiliários - IOF" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.589 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13136720716202176_7372639.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1637,7 +1657,7 @@ As operações de crédito correspondentes a mútuo de recursos financeiros entr
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-007.910 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13227720869201475_7372648.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1665,7 +1685,7 @@ Aplicável o princípio da retroatividade benigna para reduzir a multa qualifica
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Outros Tributos ou Contribuições" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.612 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13707003544200298_7372674.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1681,7 +1701,7 @@ Em conformidade com a jurisprudência firmada no âmbito do Superior Tribunal de
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-007.909 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13839900538200617_7372649.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1698,7 +1718,7 @@ Tendo o julgamento sido convertido em diligência para aprofundamento da instru�
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ|Normas Gerais de Direito Tributário|Processo Administrativo Fiscal" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.989 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13896720547201524_7372673.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1734,7 +1754,7 @@ A alegação de nulidade da sujeição passiva solidária, fundada na ausência 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.990 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/14098000027201055_7372676.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1753,7 +1773,7 @@ MÚTUO. NECESSIDADE DE DEMONSTRAÇÃO FORMAL E MATERIAL.A descaracterização da
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-007.734 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15504730574201335_7372651.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1769,7 +1789,7 @@ RECURSO VOLUNTÁRIO. INTEMPESTIVIDADE. NÃO CONHECIMENTO.DOMICÍLIO TRIBUTÁRIO 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-007.911 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15563720205201259_7372652.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1792,7 +1812,7 @@ A mera afirmação de que terceiro teria oferecido à tributação receitas em m
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Operações de Crédito, Câmbio e Seguros ou relativas a Títulos ou Valores Mobiliários - IOF" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.590 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15563720276201502_7372640.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1810,7 +1830,7 @@ As operações de crédito correspondentes a mútuo de recursos financeiros entr
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-001.076 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16095720023202014_7372644.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1821,7 +1841,7 @@ As operações de crédito correspondentes a mútuo de recursos financeiros entr
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-015.095 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16095720159201303_7372623.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1845,7 +1865,7 @@ A mera retificação da DACON (Demonstrativo de Apuração de Contribuições So
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.826 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16095720308201245_7372641.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1867,7 +1887,7 @@ Plenamente cabível a aplicação do respectivo dispositivo regimental uma vez q
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-007.914 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16327721173201931_7372650.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1886,7 +1906,7 @@ Embargos acolhidos para sanar contradição e obscuridade, sem efeitos infringen
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-000.587 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16349000089200879_7372655.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1897,7 +1917,7 @@ Embargos acolhidos para sanar contradição e obscuridade, sem efeitos infringen
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.385 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16366720067201116_7372646.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1915,7 +1935,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.380 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16366720672201278_7372647.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1933,7 +1953,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.537 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16539720003202419_7372662.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1951,7 +1971,7 @@ Concede-se direito a crédito na apuração não-cumulativa da contribuição as
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.610 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682902960201266_7372679.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1973,7 +1993,7 @@ A base de cálculo da contribuição é o total das receitas auferidas pelo cont
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.611 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682902961201219_7372678.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -1995,7 +2015,7 @@ A base de cálculo da contribuição é o total das receitas auferidas pelo cont
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ|Normas Gerais de Direito Tributário|Processo Administrativo Fiscal" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.997 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/18050720122202129_7372668.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2029,7 +2049,7 @@ Mantida a qualificação da multa de ofício, o percentual deve ser reduzido par
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.592 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19515720598201812_7372635.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2059,7 +2079,7 @@ A prova indiciária é meio hábil para fundamentar o lançamento fiscal, especi
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-007.660 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19679721265201919_7372642.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2087,7 +2107,7 @@ Crédito Tributário Mantido
 </div>
 </article>
 <h2 class="data">Quarta, 13 de maio de 2026 <span class="qtd">(55)</span></h2>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.597 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166733041202007_7372335.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2107,7 +2127,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.596 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166733042202043_7372336.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2127,7 +2147,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.598 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166733053202023_7372337.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2147,7 +2167,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.599 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166733056202067_7372338.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2167,7 +2187,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.600 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166733076202038_7372339.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2187,7 +2207,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.601 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166733077202082_7372340.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2207,7 +2227,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.673 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10235720336201234_7372333.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2223,7 +2243,7 @@ Inexistindo obscuridade, omissão, contradição ou erro material no acórdão e
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.674 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10235720337201289_7372334.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2239,7 +2259,7 @@ Inexistindo obscuridade, omissão, contradição ou erro material no acórdão e
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.710 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10240000866200998_7372319.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2257,7 +2277,7 @@ O contribuinte não apresenta provas da sua alegação de que não foi possível
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal|Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.357 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10670721067201618_7372369.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2278,7 +2298,7 @@ Cabe à defesa apresentar prova documental capaz de gerar convicção para infir
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal|Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.708 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10735721343201484_7372320.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2307,7 +2327,7 @@ As retenções de contribuições sociais efetuadas pelos tomadores de serviços
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.956 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10805900765202172_7372326.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2323,7 +2343,7 @@ COMPENSAÇÃO. IRRF. COMPROVAÇÃO POR MEIOS ALTERNATIVOS. SÚMULA CARF Nº 143.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.957 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10805902789202085_7372327.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2339,7 +2359,7 @@ COMPENSAÇÃO. IRRF. COMPROVAÇÃO POR MEIOS ALTERNATIVOS. SÚMULA CARF Nº 143.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.958 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10805903285202163_7372328.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2355,7 +2375,7 @@ COMPENSAÇÃO. IRRF. COMPROVAÇÃO POR MEIOS ALTERNATIVOS. SÚMULA CARF Nº 143.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.959 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10805903286202116_7372329.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2371,7 +2391,7 @@ COMPENSAÇÃO. IRRF. COMPROVAÇÃO POR MEIOS ALTERNATIVOS. SÚMULA CARF Nº 143.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.960 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10805903287202152_7372330.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2387,7 +2407,7 @@ COMPENSAÇÃO. IRRF. COMPROVAÇÃO POR MEIOS ALTERNATIVOS. SÚMULA CARF Nº 143.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.961 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10805904288202114_7372331.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2403,7 +2423,7 @@ COMPENSAÇÃO. IRRF. COMPROVAÇÃO POR MEIOS ALTERNATIVOS. SÚMULA CARF Nº 143.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1102-001.962 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10805906865202021_7372332.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2419,7 +2439,7 @@ COMPENSAÇÃO. IRRF. COMPROVAÇÃO POR MEIOS ALTERNATIVOS. SÚMULA CARF Nº 143.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Obrigações Acessórias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.295 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10855725927201713_7372359.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2441,7 +2461,7 @@ Incide contribuição previdenciária sobre os valores pagos ou creditados a tí
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.677 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880721524201607_7372341.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2459,7 +2479,7 @@ O pedido de diligência ou perícia será indeferido quando se apresentar presci
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.676 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880722135201691_7372342.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2478,7 +2498,7 @@ O pedido de diligência ou perícia será indeferido quando se apresentar presci
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.678 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880722343201690_7372343.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2496,7 +2516,7 @@ O pedido de diligência ou perícia será indeferido quando se apresentar presci
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.679 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880722748201628_7372344.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2514,7 +2534,7 @@ O pedido de diligência ou perícia será indeferido quando se apresentar presci
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.603 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950722587202088_7372345.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2533,7 +2553,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.602 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950722589202077_7372346.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2552,7 +2572,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.604 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950722590202000_7372347.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2571,7 +2591,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.605 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950722596202079_7372348.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2590,7 +2610,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.606 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950723003202091_7372349.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2609,7 +2629,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.607 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950725905201929_7372350.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2628,7 +2648,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.608 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950725907201918_7372351.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2647,7 +2667,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-015.609 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10950725911201986_7372352.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2666,7 +2686,7 @@ Dispõe a Súmula CARF nº 217 que os gastos com fretes relativos ao transporte 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.329 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10980740247202324_7372362.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2688,7 +2708,7 @@ O Princípio Constitucional de Vedação ao Confisco é dirigido ao legislador d
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.348 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11020725544201801_7372361.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2710,7 +2730,7 @@ As multas aplicadas por infrações administrativas tributárias devem seguir o 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-004.004 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11060900507201481_7372620.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2731,7 +2751,7 @@ O art. 17 da Lei nº 11.033/2004 assegura a manutenção de créditos regularmen
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1401-001.155 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11065722783201290_7372318.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2742,7 +2762,7 @@ O art. 17 da Lei nº 11.033/2004 assegura a manutenção de créditos regularmen
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-014.998 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11075900415201351_7372356.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2758,7 +2778,7 @@ Nos termos da Súmula CARF nº 231, o aproveitamento de créditos extemporâneos
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-014.999 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11075900416201303_7372355.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2774,7 +2794,7 @@ Nos termos da Súmula CARF nº 231, o aproveitamento de créditos extemporâneos
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF|Processo Administrativo Fiscal" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.344 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11516723978201382_7372368.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2805,7 +2825,7 @@ Como destinatário final da perícia, compete ao órgão julgador avaliar a pres
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3001-003.848 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11634720027201577_7372621.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2822,7 +2842,7 @@ A revenda, por indústria, de produto adquirido de terceiros para estabeleciment
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.301 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/12963720055201797_7372363.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2838,7 +2858,7 @@ Os valores creditados em conta de depósito ou investimento, mantida junto à in
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-000.603 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13807006789200753_7372325.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2849,7 +2869,7 @@ Os valores creditados em conta de depósito ou investimento, mantida junto à in
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.709 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13971721465201395_7372321.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2877,7 +2897,7 @@ Não tendo sido apresentadas novas razões de defesa perante a segunda instânci
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.338 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/14041720129201801_7372357.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2899,7 +2919,7 @@ O CARF não é competente para se pronunciar sobre a inconstitucionalidade de le
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-000.223 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/14098720043202030_7372370.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2910,7 +2930,7 @@ O CARF não é competente para se pronunciar sobre a inconstitucionalidade de le
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2402-013.527 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15504723158201895_7372354.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2939,7 +2959,7 @@ As empresas integrantes de qualquer grupo econômico respondem solidariamente pe
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.254 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15540000770200888_7372364.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2955,7 +2975,7 @@ OBRIGAÇÃO PRINCIPAL. OUTRAS ENTIDADES OU FUNDOS. SIMPLES NACIONAL. EXCLUSÃO. 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.255 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15540000771200822_7372365.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2971,7 +2991,7 @@ OBRIGAÇÃO PRINCIPAL. EMPRESA. GILRAT. SIMPLES NACIONAL. EXCLUSÃO. CONTRIBUIÇ
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.720 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15765000019200847_7372322.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -2993,7 +3013,7 @@ No processo administrativo fiscal, é incabível a intimação dirigida ao ender
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.721 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15765000222200813_7372323.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3011,7 +3031,7 @@ Deixar a empresa de arrecadar contribuição previdenciária de segurado contrib
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2201-012.719 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15765000223200868_7372324.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3033,7 +3053,7 @@ No caso de multa por descumprimento de obrigação acessória pela falta de decl
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.337 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16004720289201652_7372366.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3070,7 +3090,7 @@ O indeferimento fundamentado de requerimento de diligência ou perícia não con
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Obrigações Acessórias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.296 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16027720712201737_7372358.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3086,7 +3106,7 @@ A aplicação da multa isolada prevista no art. 89, §10, da Lei nº 8.212/1991 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1202-002.354 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17095720292202396_7372353.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3103,7 +3123,7 @@ Embargos acolhidos, para sanar contradição, sem efeitos modificativos do julga
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.273 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19515720093201513_7372367.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3125,7 +3145,7 @@ A multa de ofício qualificada aplicada no lançamento tributário deve seguir o
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2102-004.328 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19515720685201799_7372360.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3156,7 +3176,7 @@ As decisões administrativas, mesmo as proferidas pelo Conselho Administrativo d
 </div>
 </article>
 <h2 class="data">Terça, 12 de maio de 2026 <span class="qtd">(143)</span></h2>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.546 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10111720905201914_7371024.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3173,7 +3193,7 @@ Comprovado que todas as Declarações de Importação objeto do lançamento fora
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.411 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10120903711201943_7371068.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3189,7 +3209,7 @@ Verificado o vício no acórdão embargado, visando suprir omissão sobre ponto 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.410 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10120903717201911_7371069.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3206,7 +3226,7 @@ Verificado o vício no acórdão embargado, visando suprir omissão sobre ponto 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.920 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10166720135201974_7371105.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3224,7 +3244,7 @@ III. RAZÕES DE DECIDIR3.1. O voto adota a fundamentação do acórdão recorrid
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.902 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10280735068202362_7371109.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3246,7 +3266,7 @@ São válidos os juros e a multa aplicados em conformidade com as disposições 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI|Processo Administrativo Fiscal|Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.193 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10320720488201944_7371031.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3284,7 +3304,7 @@ São devidos juros de mora sobre o crédito tributário não integralmente pago 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.327 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10380904881201801_7371049.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3303,7 +3323,7 @@ A intempestividade da impugnação impede a instauração válida da fase litigi
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.326 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10380907906201811_7371051.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3319,7 +3339,7 @@ A intempestividade da impugnação impede a instauração válida da fase litigi
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.328 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10380907911201823_7371050.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3340,7 +3360,7 @@ Nos termos do art. 23, §2º, inciso III, alínea “b”, do Decreto º 70.235/
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.891 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10410722317201860_7371110.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3372,7 +3392,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.914 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10435720520201490_7371111.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3402,7 +3422,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.915 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10435720521201434_7371126.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3440,7 +3460,7 @@ Incidem juros moratórios, calculados à taxa referencial do Sistema Especial de
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.919 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10437720322201830_7371115.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3474,7 +3494,7 @@ O recurso não apresentou elementos novos nem enfrentou os fundamentos probatór
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.106 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10480724731201880_7371027.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3494,7 +3514,7 @@ Nos termos do art. 23, §2º, inciso III, alínea “b”, do Decreto º 70.235/
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.414 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10480901169200842_7371039.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3511,7 +3531,7 @@ COMPENSAÇÃO. ESPÉCIE DE PEDIDO DE RECONHECIMENTO DE DIREITO CREDITÓRIO. No �
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.890 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10580725093201896_7371116.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3540,7 +3560,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.565 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10640901280201235_7371028.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3557,7 +3577,7 @@ Incumbe à Recorrente o ônus de demonstrar os fatos constitutivos de seu direit
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.567 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10640903208201323_7371017.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3580,7 +3600,7 @@ A falta de documentação comprobatória impede o reconhecimento de créditos re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.566 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10640903209201378_7371018.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3603,7 +3623,7 @@ A falta de documentação comprobatória impede o reconhecimento de créditos re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.569 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10640903210201301_7371019.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3626,7 +3646,7 @@ A falta de documentação comprobatória impede o reconhecimento de créditos re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.570 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10640903211201347_7371025.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3649,7 +3669,7 @@ A falta de documentação comprobatória impede o reconhecimento de créditos re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.529 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720234201925_7371071.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3665,7 +3685,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.530 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720235201970_7371072.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3681,7 +3701,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.531 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720236201914_7371073.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3697,7 +3717,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.532 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720237201969_7371074.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3713,7 +3733,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.533 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720238201911_7371075.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3729,7 +3749,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.534 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720239201958_7371076.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3745,7 +3765,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.535 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720240201982_7371077.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3761,7 +3781,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.536 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720396201963_7371078.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3777,7 +3797,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.537 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720397201916_7371079.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3793,7 +3813,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.538 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720398201952_7371080.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3809,7 +3829,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.539 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720399201905_7371081.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3825,7 +3845,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.540 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720400201993_7371082.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3841,7 +3861,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.541 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720401201938_7371083.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3857,7 +3877,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.542 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665720402201982_7371084.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3873,7 +3893,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas de Administração Tributária" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-014.913 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721733201182_7371065.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3893,7 +3913,7 @@ Aplicam-se à contribuição ao Programa de Integração Social - PIS, as mesmas
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.543 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721783201917_7371085.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3909,7 +3929,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.544 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721784201961_7371086.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3925,7 +3945,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.545 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721787201903_7371087.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3941,7 +3961,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.546 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721789201994_7371088.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3957,7 +3977,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.547 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721855201926_7371089.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3973,7 +3993,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.548 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721914201966_7371090.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -3989,7 +4009,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.549 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10665721918201944_7371091.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4005,7 +4025,7 @@ Até 01/02/2016, o crédito presumido apurado por cooperativa, com fundamento no
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.926 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10730721231201121_7371127.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4021,7 +4041,7 @@ Somente pode ser deduzida a importância comprovadamente paga a título de pens�
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.927 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10730721988201114_7371128.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4037,7 +4057,7 @@ Somente são dedutíveis, da base de cálculo do Imposto de Renda da Pessoa Fís
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal|Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.534 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10735720985201971_7371020.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4060,7 +4080,7 @@ Nos termos do art. 106, II, “c”, do Código Tributário Nacional, aplica-se 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.932 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10830004322200955_7371117.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4090,7 +4110,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-001.052 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10830725228201158_7371133.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4101,7 +4121,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-003.052 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10830900715201459_7371032.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4112,7 +4132,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-003.051 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10830900716201401_7371033.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4123,7 +4143,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-003.054 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10845901264201912_7371021.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4134,7 +4154,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-003.053 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10845901265201967_7371022.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4145,7 +4165,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.899 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10860720439201317_7371122.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4169,7 +4189,7 @@ No caso de lançamento por aferição indireta decorrente de desqualificação d
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.898 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10860720440201333_7371131.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4193,7 +4213,7 @@ No caso de lançamento por aferição indireta decorrente de desqualificação d
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.897 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10860720442201322_7371132.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4211,7 +4231,7 @@ Constitui infração deixar a empresa de exibir documentos e/ou livros relaciona
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.855 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10872720410201631_7371036.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4231,7 +4251,7 @@ De acordo com a Súmula 435 do STJ, presume-se dissolvida irregularmente a empre
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.498 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880726415201163_7371070.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4247,7 +4267,7 @@ Constatada a omissão da DRJ, os autos devem ser devolvidos para proferir novo a
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.511 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880905052201635_7371092.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4263,7 +4283,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.510 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880905053201680_7371093.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4279,7 +4299,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.512 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880905054201624_7371094.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4295,7 +4315,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.513 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880905055201679_7371095.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4311,7 +4331,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.514 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880905056201613_7371096.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4327,7 +4347,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.515 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880905057201668_7371097.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4343,7 +4363,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.516 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880945171201388_7371098.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4359,7 +4379,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.517 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880945172201322_7371099.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4375,7 +4395,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.518 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10880945173201377_7371100.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4391,7 +4411,7 @@ Sendo identificada, na decisão embargada, vício a ser sanado, os embargos deve
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.382 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10930903223201225_7371040.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4409,7 +4429,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.591 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10980722572202143_7371101.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4431,7 +4451,7 @@ A penalidade, por ser matéria de direito, deve ser aplicada conforme a legisla�
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.571 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10980903389201337_7371029.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4448,7 +4468,7 @@ Incumbe à Recorrente o ônus de demonstrar os fatos constitutivos de seu direit
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.572 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/10980914354201242_7371030.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4465,7 +4485,7 @@ Incumbe à Recorrente o ônus de demonstrar os fatos constitutivos de seu direit
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2001-008.137 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11020722683201794_7371118.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4493,7 +4513,7 @@ O inciso VI, §1º, do art. 44 da Lei n. 9.430/96, deve ser aplicado, retroativa
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-007.900 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11020724332201211_7371059.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4509,7 +4529,7 @@ Padece de vício material o lançamento de ofício quando há erro na eleição 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.917 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11020733300201975_7371129.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4527,7 +4547,7 @@ A partir de 1996, incabível cogitar de atualização do custo de aquisição de
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.925 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11080721975201118_7371123.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4544,7 +4564,7 @@ COMPENSAÇÃO INDEVIDA DE IMPOSTO DE RENDA RETIDO NA FONTE. NÃO COMPROVAÇÃOA 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI|Classificação de Mercadorias|Normas Gerais de Direito Tributário|Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.104 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11516720192201818_7371037.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4579,7 +4599,7 @@ PEDIDO DE PERÍCIA. PRESCINDIBILIDADE. INDEFERIMENTO.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-014.830 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11516721995201202_7371066.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4597,7 +4617,7 @@ Os valores recebidos relativos ao chamado bônus varejo” integram a base de c�
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-015.032 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11543001116200649_7372317.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4631,7 +4651,7 @@ Ensejam a nulidade apenas os atos e termos lavrados por pessoa incompetente e os
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.929 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11610721088201104_7371106.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4658,7 +4678,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.930 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11610721089201141_7371107.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4685,7 +4705,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.923 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/11634720004201996_7371119.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4718,7 +4738,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.549 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13161721590201925_7371016.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4734,7 +4754,7 @@ O momento relevante para a incidência de direitos antidumping é quando da ocor
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins|Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.496 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13369722533201937_7371048.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4782,7 +4802,7 @@ ENDEREÇAMENTO DAS INTIMAÇÕES. SÚMULA CARF 110.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-014.829 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13502001566201020_7371062.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4798,7 +4818,7 @@ Na ausência de pagamento de tributo sujeito a lançamento por homologação, ap
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.931 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13827720155201317_7371130.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4816,7 +4836,7 @@ Somente são dedutíveis os honorários advocatícios correspondentes a despesas
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.178 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13839720495201317_7372312.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4837,7 +4857,7 @@ A partir de 1º de julho de 2000, com as alterações trazidas pela MP nº 1.991
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.179 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13839721662201410_7372313.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4859,7 +4879,7 @@ A partir de 1º de julho de 2000, com as alterações trazidas pela MP nº 1.991
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o PIS/Pasep|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.180 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13839722565201363_7372314.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4881,7 +4901,7 @@ A partir de 1º de julho de 2000, com as alterações trazidas pela MP nº 1.991
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-014.821 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13851900186201352_7371064.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4897,7 +4917,7 @@ Princípio da verdade material não autoriza reabertura de processo para alterar
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuições Sociais Previdenciárias" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.878 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13896722527201831_7371104.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4930,7 +4950,7 @@ III. RAZÕES DE DECIDIR
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3201-003.876 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13896902638201829_7371053.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4941,7 +4961,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3201-003.875 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13896904506201831_7371054.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4952,7 +4972,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3201-003.877 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13896904507201886_7371055.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4963,7 +4983,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3201-003.878 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13896908577201811_7371056.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4974,7 +4994,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-001.047 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13971004825200823_7371023.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -4985,7 +5005,7 @@ III. RAZÕES DE DECIDIR
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre Produtos Industrializados - IPI|Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.313 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/13971726719202091_7371041.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5006,7 +5026,7 @@ A anuência com a impugnação do sujeito passivo é uma das hipóteses de revis
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.180 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/14766000299201035_7371026.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5022,7 +5042,7 @@ EMBARGOS DE DECLARAÇÃO. PRESSUPOSTO. CONTRADIÇÃO. OMISSÃO. OBSCURIDADE. EXI
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.435 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15444720198202132_7371042.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5038,7 +5058,7 @@ A data de ciência do lançamento, para fins de contagem do prazo de impugnaçã
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.436 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15444720219202110_7371043.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5054,7 +5074,7 @@ A data de ciência do lançamento, para fins de contagem do prazo de impugnaçã
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.446 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15504725853201204_7371067.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5072,7 +5092,7 @@ Recurso Voluntário negado.
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal|Imposto sobre a Renda de Pessoa Jurídica - IRPJ|Normas Gerais de Direito Tributário" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-007.894 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15586720831201449_7371060.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5109,7 +5129,7 @@ A responsabilização pessoal de administrador depende da comprovação do exerc
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.921 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/15956720004201912_7371120.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5134,7 +5154,7 @@ As multas aplicadas por infrações administrativas tributárias devem seguir o 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ|Normas Gerais de Direito Tributário|Processo Administrativo Fiscal" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1101-002.134 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16095720016201555_7371052.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5178,7 +5198,7 @@ O decidido para o lançamento matriz de IRPJ estende-se às autuações que com 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas de Administração Tributária" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1002-004.243 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16327901692201395_7371057.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5196,7 +5216,7 @@ Não deve ser homologada a compensação cujo crédito não possua os atributos 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1002-004.242 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16327901985201372_7371058.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5214,7 +5234,7 @@ Não deve ser homologada a compensação cujo crédito não possua os atributos 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-014.822 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16349720166201297_7371063.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5230,7 +5250,7 @@ Aplica-se a multa isolada calculada sobre o valor dos débitos indevidamente com
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.384 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16366720066201171_7371044.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5248,7 +5268,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.386 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16366720069201113_7371045.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5266,7 +5286,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.387 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16366720070201130_7371046.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5284,7 +5304,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas Gerais de Direito Tributário" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3102-003.381 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16366720674201267_7371047.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5302,7 +5322,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3302-001.233 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682902638201237_7371035.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5313,7 +5333,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-003.030 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682902638201237_7371034.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5324,7 +5344,7 @@ O conceito de insumo para fins de apuração de créditos da Cofins e Pis deve s
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.597 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682902977202023_7371102.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5348,7 +5368,7 @@ Considerando que as atividades relativas aos fluxos “Ferrovia” e “Porto”
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3101-004.598 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16682902978202078_7371103.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5372,7 +5392,7 @@ Considerando que as atividades relativas aos fluxos “Ferrovia” e “Porto”
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.572 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16692720959201719_7371112.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5407,7 +5427,7 @@ Não é possível o desconto de crédito calculados sobre o valor do arrendament
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.575 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16692720963201779_7371113.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5440,7 +5460,7 @@ Não é possível o desconto de crédito calculados sobre o valor do arrendament
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas de Administração Tributária|Contribuição para o Financiamento da Seguridade Social - Cofins" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3202-003.557 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/16692721022201671_7371114.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5477,7 +5497,7 @@ As despesas com aquisição de tratores destinados ao ativo imobilizado para uti
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.553 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720008201947_7370996.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5493,7 +5513,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.055 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720008201947_7370997.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5504,7 +5524,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.056 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720009201991_7370999.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5515,7 +5535,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.554 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720009201991_7370998.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5531,7 +5551,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.057 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720010201916_7371001.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5542,7 +5562,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.555 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720010201916_7371000.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5558,7 +5578,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.556 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720011201961_7371002.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5574,7 +5594,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.058 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720011201961_7371003.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5585,7 +5605,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.557 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720012201913_7371004.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5601,7 +5621,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.059 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720012201913_7371005.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5612,7 +5632,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.558 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720015201949_7371006.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5628,7 +5648,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.060 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720015201949_7371007.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5639,7 +5659,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.061 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720016201993_7371009.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5650,7 +5670,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.559 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720016201993_7371008.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5666,7 +5686,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.560 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720017201938_7371010.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5682,7 +5702,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.062 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720017201938_7371011.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5693,7 +5713,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.561 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720018201982_7371012.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5709,7 +5729,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.063 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720018201982_7371013.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5720,7 +5740,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3301-002.064 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720019201927_7371015.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5731,7 +5751,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3401-014.562 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/17198720019201927_7371014.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5747,7 +5767,7 @@ Havendo a preterição do direito de defesa do contribuinte, nulo o acórdão re
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1202-002.359 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19311000361201051_7371125.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5763,7 +5783,7 @@ A manutenção de escrituração completa de suas receitas e despesas em livros 
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Jurídica - IRPJ|Contribuição Social sobre o Lucro Líquido - CSLL" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1202-002.360 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19311000751201021_7371124.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5784,7 +5804,7 @@ Tratando-se de tributo reflexo, a mesma solução deve ser aplicada também para
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="(sem assunto)" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1302-001.363 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19311720211201652_7371061.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5795,7 +5815,7 @@ Tratando-se de tributo reflexo, a mesma solução deve ser aplicada também para
   </header>
   <div class="ementa">(sem ementa)</div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Normas de Administração Tributária" data-secao="Primeira Seção de Julgamento">
   <header>
     <h3>Acórdão 1202-002.381 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19515720607201611_7371121.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5817,7 +5837,7 @@ Crédito Tributário Parcialmente Mantido
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.184 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19515721475201211_7372315.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5837,7 +5857,7 @@ A decisão definitiva proferida na esfera administrativa favorável ao contribui
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Processo Administrativo Fiscal" data-secao="Terceira Seção De Julgamento">
   <header>
     <h3>Acórdão 3002-004.183 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19515721476201258_7372316.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5857,7 +5877,7 @@ A decisão definitiva proferida na esfera administrativa favorável ao contribui
 
 </div>
 </article>
-<article class="acordao">
+<article class="acordao" data-assuntos="Imposto sobre a Renda de Pessoa Física - IRPF" data-secao="Segunda Seção de Julgamento">
   <header>
     <h3>Acórdão 2202-011.918 · <a href="https://acordaos.economia.gov.br/acordaos2/pdfs/processados/19985722213201815_7371108.pdf" target="_blank">PDF</a></h3>
     <div class="meta">
@@ -5875,5 +5895,45 @@ Mantém-se as glosas das despesas médicas, cuja comprovação não foi realizad
 
 </div>
 </article>
+    </main>
+  </div>
+  <script>
+function aplicar(){
+  var fa = document.querySelector('.f-assunto.ativo');
+  var fs = document.querySelector('.f-secao.ativo');
+  fa = fa ? fa.getAttribute('data-val') : null;
+  fs = fs ? fs.getAttribute('data-val') : null;
+  var cards = document.querySelectorAll('.acordao');
+  for (var i=0;i<cards.length;i++){
+    var c = cards[i];
+    var ass = (c.getAttribute('data-assuntos')||'').split('|');
+    var sec = c.getAttribute('data-secao')||'';
+    var okA = !fa || ass.indexOf(fa) >= 0;
+    var okS = !fs || sec === fs;
+    c.style.display = (okA && okS) ? '' : 'none';
+  }
+  var hs = document.querySelectorAll('h2.data');
+  for (var j=0;j<hs.length;j++){
+    var h = hs[j], el = h.nextElementSibling, vis = false;
+    while (el && el.tagName !== 'H2'){
+      if (el.className && (''+el.className).indexOf('acordao') >= 0 && el.style.display !== 'none') vis = true;
+      el = el.nextElementSibling;
+    }
+    h.style.display = vis ? '' : 'none';
+  }
+}
+function toggle(el, cls){
+  var ativo = el.classList.contains('ativo');
+  var todos = document.querySelectorAll('.'+cls);
+  for (var i=0;i<todos.length;i++) todos[i].classList.remove('ativo');
+  if (!ativo) el.classList.add('ativo');
+  aplicar();
+}
+function limpar(cls){
+  var todos = document.querySelectorAll('.'+cls);
+  for (var i=0;i<todos.length;i++) todos[i].classList.remove('ativo');
+  aplicar();
+}
+</script>
 </body>
 </html>
