@@ -112,7 +112,7 @@ def extract_assuntos(ementa: str | None) -> list[str]:
 
 CSS = """
     body { font-family: -apple-system, system-ui, Segoe UI, sans-serif;
-           max-width: 1150px; margin: 2em auto; padding: 0 1em;
+           max-width: 1280px; margin: 2em auto; padding: 0 1em;
            color: #222; line-height: 1.5; }
     h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; margin-bottom: 0.3em; }
     .status { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px;
@@ -124,8 +124,14 @@ CSS = """
     .novo { background: #d73a49; color: #fff; font-size: 0.7em;
             padding: 0.1em 0.5em; border-radius: 4px; font-weight: bold;
             vertical-align: middle; }
-    .layout { display: flex; gap: 1.5em; align-items: flex-start; }
-    .filtros { flex: 0 0 230px; position: sticky; top: 1em; font-size: 0.9em;
+    .layout { display: flex; gap: 1.2em; align-items: flex-start; }
+    .competencia { flex: 0 0 185px; position: sticky; top: 1em; font-size: 0.78em; }
+    .comp-box { background: #fffdf3; border: 1px solid #e6ddae; border-radius: 6px;
+                padding: 0.6em 0.7em; }
+    .comp-box h4 { margin: 0 0 0.5em; font-size: 0.95em; color: #6b5d00; }
+    .comp-box .cseca { margin-bottom: 0.55em; color: #444; line-height: 1.35; }
+    .comp-box .cseca:last-child { margin-bottom: 0; }
+    .filtros { flex: 0 0 215px; position: sticky; top: 1em; font-size: 0.9em;
                max-height: calc(100vh - 2em); overflow-y: auto; }
     .conteudo { flex: 1; min-width: 0; }
     .filtros .grupo { margin-bottom: 1.3em; }
@@ -196,6 +202,16 @@ function limpar(cls){
   for (var i=0;i<todos.length;i++) todos[i].classList.remove('ativo');
   aplicar();
 }
+"""
+
+
+COMPETENCIA = """
+<div class="comp-box">
+  <h4>Competência (RICARF)</h4>
+  <div class="cseca"><b>1ª Seção</b><br>IRPJ, CSLL, IRRF, Simples, reflexos do IRPJ</div>
+  <div class="cseca"><b>2ª Seção</b><br>IRPF, IRRF (PF), ITR, Contrib. Previdenciárias, obrig. acessórias</div>
+  <div class="cseca"><b>3ª Seção</b><br>PIS/Cofins, IPI, II/IE e aduaneiro, IOF, CIDE, FINSOCIAL, CPMF</div>
+</div>
 """
 
 
@@ -304,6 +320,7 @@ def render_html(display: list[tuple[dict, datetime.date]],
     <div>🪟 A página mostra os últimos {DISPLAY_DAYS} dias de publicação. Use os filtros à esquerda.</div>
   </div>
   <div class="layout">
+    <aside class="competencia">{COMPETENCIA}</aside>
     <aside class="filtros">{sidebar}</aside>
     <main class="conteudo">
       {aviso}

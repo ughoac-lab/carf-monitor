@@ -6,7 +6,7 @@
   <title>Acórdãos CARF</title>
   <style>
     body { font-family: -apple-system, system-ui, Segoe UI, sans-serif;
-           max-width: 1150px; margin: 2em auto; padding: 0 1em;
+           max-width: 1280px; margin: 2em auto; padding: 0 1em;
            color: #222; line-height: 1.5; }
     h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; margin-bottom: 0.3em; }
     .status { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px;
@@ -18,8 +18,14 @@
     .novo { background: #d73a49; color: #fff; font-size: 0.7em;
             padding: 0.1em 0.5em; border-radius: 4px; font-weight: bold;
             vertical-align: middle; }
-    .layout { display: flex; gap: 1.5em; align-items: flex-start; }
-    .filtros { flex: 0 0 230px; position: sticky; top: 1em; font-size: 0.9em;
+    .layout { display: flex; gap: 1.2em; align-items: flex-start; }
+    .competencia { flex: 0 0 185px; position: sticky; top: 1em; font-size: 0.78em; }
+    .comp-box { background: #fffdf3; border: 1px solid #e6ddae; border-radius: 6px;
+                padding: 0.6em 0.7em; }
+    .comp-box h4 { margin: 0 0 0.5em; font-size: 0.95em; color: #6b5d00; }
+    .comp-box .cseca { margin-bottom: 0.55em; color: #444; line-height: 1.35; }
+    .comp-box .cseca:last-child { margin-bottom: 0; }
+    .filtros { flex: 0 0 215px; position: sticky; top: 1em; font-size: 0.9em;
                max-height: calc(100vh - 2em); overflow-y: auto; }
     .conteudo { flex: 1; min-width: 0; }
     .filtros .grupo { margin-bottom: 1.3em; }
@@ -56,11 +62,19 @@
 <body>
   <h1>Acórdãos CARF</h1>
   <div class="status">
-    <div>🤖 Robô executou em <b>19/05/2026 às 21:35</b> (se for hoje, o robô está funcionando).</div>
+    <div>🤖 Robô executou em <b>19/05/2026 às 21:49</b> (se for hoje, o robô está funcionando).</div>
     <div>📅 Publicação mais recente disponível no índice do CARF: <b>15/05/2026 (Sexta)</b>.</div>
     <div>🪟 A página mostra os últimos 7 dias de publicação. Use os filtros à esquerda.</div>
   </div>
   <div class="layout">
+    <aside class="competencia">
+<div class="comp-box">
+  <h4>Competência (RICARF)</h4>
+  <div class="cseca"><b>1ª Seção</b><br>IRPJ, CSLL, IRRF, Simples, reflexos do IRPJ</div>
+  <div class="cseca"><b>2ª Seção</b><br>IRPF, IRRF (PF), ITR, Contrib. Previdenciárias, obrig. acessórias</div>
+  <div class="cseca"><b>3ª Seção</b><br>PIS/Cofins, IPI, II/IE e aduaneiro, IOF, CIDE, FINSOCIAL, CPMF</div>
+</div>
+</aside>
     <aside class="filtros"><div class="grupo"><h4>Seção julgadora</h4><ul><li class="todos" onclick="limpar('f-secao')">Todos</li><li class="f-secao" data-val="Terceira Seção De Julgamento" onclick="toggle(this,'f-secao')">Terceira Seção De Julgamento <span>(189)</span></li><li class="f-secao" data-val="Segunda Seção de Julgamento" onclick="toggle(this,'f-secao')">Segunda Seção de Julgamento <span>(66)</span></li><li class="f-secao" data-val="Primeira Seção de Julgamento" onclick="toggle(this,'f-secao')">Primeira Seção de Julgamento <span>(48)</span></li><li class="f-secao" data-val="Câmara Superior de Recursos Fiscais" onclick="toggle(this,'f-secao')">Câmara Superior de Recursos Fiscais <span>(2)</span></li></ul></div><div class="grupo"><h4>Assunto</h4><ul><li class="todos" onclick="limpar('f-assunto')">Todos</li><li class="f-assunto" data-val="Processo Administrativo Fiscal" onclick="toggle(this,'f-assunto')">Processo Administrativo Fiscal <span>(52)</span></li><li class="f-assunto" data-val="Contribuição para o Financiamento da Seguridade Social - Cofins" onclick="toggle(this,'f-assunto')">Contribuição para o Financiamento da Seguridade Social - Cofins <span>(46)</span></li><li class="f-assunto" data-val="Normas Gerais de Direito Tributário" onclick="toggle(this,'f-assunto')">Normas Gerais de Direito Tributário <span>(44)</span></li><li class="f-assunto" data-val="Contribuição para o PIS/Pasep" onclick="toggle(this,'f-assunto')">Contribuição para o PIS/Pasep <span>(36)</span></li><li class="f-assunto" data-val="(sem assunto)" onclick="toggle(this,'f-assunto')">(sem assunto) <span>(33)</span></li><li class="f-assunto" data-val="Contribuições Sociais Previdenciárias" onclick="toggle(this,'f-assunto')">Contribuições Sociais Previdenciárias <span>(31)</span></li><li class="f-assunto" data-val="Imposto sobre a Renda de Pessoa Física - IRPF" onclick="toggle(this,'f-assunto')">Imposto sobre a Renda de Pessoa Física - IRPF <span>(29)</span></li><li class="f-assunto" data-val="Imposto sobre a Renda de Pessoa Jurídica - IRPJ" onclick="toggle(this,'f-assunto')">Imposto sobre a Renda de Pessoa Jurídica - IRPJ <span>(26)</span></li><li class="f-assunto" data-val="Imposto sobre Produtos Industrializados - IPI" onclick="toggle(this,'f-assunto')">Imposto sobre Produtos Industrializados - IPI <span>(9)</span></li><li class="f-assunto" data-val="Contribuição Social sobre o Lucro Líquido - CSLL" onclick="toggle(this,'f-assunto')">Contribuição Social sobre o Lucro Líquido - CSLL <span>(8)</span></li><li class="f-assunto" data-val="Obrigações Acessórias" onclick="toggle(this,'f-assunto')">Obrigações Acessórias <span>(6)</span></li><li class="f-assunto" data-val="Normas de Administração Tributária" onclick="toggle(this,'f-assunto')">Normas de Administração Tributária <span>(5)</span></li><li class="f-assunto" data-val="Imposto sobre Operações de Crédito, Câmbio e Seguros ou relativas a Títulos ou Valores Mobiliários - IOF" onclick="toggle(this,'f-assunto')">Imposto sobre Operações de Crédito, Câmbio e Seguros ou relativas a Títulos ou Valores Mobiliários - IOF <span>(3)</span></li><li class="f-assunto" data-val="Classificação de Mercadorias" onclick="toggle(this,'f-assunto')">Classificação de Mercadorias <span>(3)</span></li><li class="f-assunto" data-val="Regimes Aduaneiros" onclick="toggle(this,'f-assunto')">Regimes Aduaneiros <span>(2)</span></li><li class="f-assunto" data-val="Outros Tributos ou Contribuições" onclick="toggle(this,'f-assunto')">Outros Tributos ou Contribuições <span>(2)</span></li></ul></div></aside>
     <main class="conteudo">
       <p class="novidade sem">Nenhum acórdão novo desde a última atualização.</p>
