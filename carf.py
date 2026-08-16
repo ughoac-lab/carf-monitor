@@ -28,8 +28,8 @@ PDF_BASE = "https://acordaos.economia.gov.br/acordaos2/pdfs/processados"
 OUTPUT_FILE = Path(__file__).parent / "index.html"
 SEEN_FILE = Path(__file__).parent / "seen.json"
 
-QUERY_DAYS = 21          # janela de detecção (busca no Solr)
-DISPLAY_DAYS = 7         # janela exibida normalmente na página
+QUERY_DAYS = 30          # janela de detecção (busca no Solr)
+DISPLAY_DAYS = 20         # janela exibida normalmente na página
 SEEN_MAX_AGE_DAYS = 45   # por quanto tempo um acórdão fica na memória
 
 WEEKDAY_PT = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
